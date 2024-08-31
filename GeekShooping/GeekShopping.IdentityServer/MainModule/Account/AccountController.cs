@@ -271,7 +271,6 @@ namespace IdentityServerHost.Quickstart.UI
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-
             if (ModelState.IsValid)
             {
 
@@ -285,7 +284,6 @@ namespace IdentityServerHost.Quickstart.UI
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
-
                 if (result.Succeeded)
                 {
                     if (!_roleManager.RoleExistsAsync(model.RoleName).GetAwaiter().GetResult())
@@ -358,9 +356,7 @@ namespace IdentityServerHost.Quickstart.UI
             List<string> roles = new List<string>();
             roles.Add("Admin");
             roles.Add("Client");
-
             ViewBag.message = roles;
-
             if (context?.IdP != null && await _schemeProvider.GetSchemeAsync(context.IdP) != null)
             {
                 var local = context.IdP == IdentityServerConstants.LocalIdentityProvider;

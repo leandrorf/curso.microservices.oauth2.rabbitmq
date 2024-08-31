@@ -17,7 +17,6 @@ builder.Services.AddDbContext<MySQLContext>(options => options.UseMySql(
     new MySqlServerVersion(new Version(8, 0, 29)))
 );
 
-
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -28,16 +27,16 @@ builder.Services.AddControllers();
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
-    {
+{
         options.Authority = "https://localhost:4435/";
         options.TokenValidationParameters = new TokenValidationParameters
-        {
+    {
             ValidateAudience = false
         };
     });
 
 builder.Services.AddAuthorization(options =>
-{
+        {
     options.AddPolicy("ApiScope", policy =>
     {
         policy.RequireAuthenticatedUser();
@@ -60,8 +59,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "Bearer"
     });
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
         {
             new OpenApiSecurityScheme
             {
@@ -76,7 +74,7 @@ builder.Services.AddSwaggerGen(c =>
             },
             new List<string> ()
         }
-     });
+    });
 });
 
 var app = builder.Build();
@@ -85,7 +83,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GeekShopping.ProductAPI v1"));
 }
 
 app.UseHttpsRedirection();
